@@ -9,6 +9,6 @@ Esta es una **plantilla** basada en [MkDocs](https://www.mkdocs.org/) + [Materia
 
 1. **Edita el nombre del sitio** en `mkdocs.yml`:
    ```yaml
-   site_name: Documentación del Curso
+   name: Andrea Solano
    theme:
      name: material
