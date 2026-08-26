@@ -7,10 +7,10 @@
 
 ## 1) Resumen
 
-- **Nombre del proyecto:** Andrea's embedded systems 
-- **Equipo / Autor(es):** _Nombre(s)_  
-- **Curso / Asignatura:** _Nombre del curso_  
-- **Fecha:** _DD/MM/AAAA_  
+- **Nombre del proyecto:** _Andrea's embedded systems_  
+- **Equipo / Autor(es):** _Andrea Solano López_  
+- **Curso / Asignatura:** _Embedded Systems_  
+- **Fecha:** _25/08/2026_  
 - **Descripción breve:** _Una o dos líneas que expliquen qué hace y por qué._
 
 !!! tip "Consejo"
