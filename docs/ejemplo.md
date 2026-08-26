@@ -7,7 +7,7 @@
 
 ## 1) Resumen
 
-- **Nombre del proyecto:** _Mi Proyecto_  
+- **Nombre del proyecto:** Andrea's embedded systems 
 - **Equipo / Autor(es):** _Nombre(s)_  
 - **Curso / Asignatura:** _Nombre del curso_  
 - **Fecha:** _DD/MM/AAAA_  
