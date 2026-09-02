@@ -46,7 +46,7 @@ sio_hw->gpio_oe_set = LED_MASK;
 ### SDK 
 
 ``` codigo
-```python
+
 gpio_init(LED);
 gpio_set_dir(LED, GPIO_OUT);
 
@@ -54,10 +54,8 @@ while (true) {
     gpio_put(LED, 1);
     gpio_put(LED, 0);
 }
-
-```
+``` 
 ### Register-level
-
 ```python
 const uint32_t LED_MASK = 1u << LED;
 
@@ -69,5 +67,4 @@ while (true) {
     sio_hw->gpio_clr = LED_MASK;
 }
 
-```
 ```
