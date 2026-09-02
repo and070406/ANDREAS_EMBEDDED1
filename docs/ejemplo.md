@@ -5,10 +5,6 @@
 
 **Prediction:** The SDK GPIO has a slower execution so it takes a few extra cycles to run the code. This is why I think the frecuency levels of the register level instructions will be higher  
 
-!!! tip "Consejo"
-    Mantén este resumen corto (máx. 5 líneas). Lo demás va en secciones específicas.
-
----
 
 ## Setup
 
