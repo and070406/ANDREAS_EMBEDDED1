@@ -25,7 +25,7 @@
 
 This image shows the SDK frecuency that was at 792.4 Hz.
 
-![Register-level Frecuency measurement](recursos/imgs/registerlevel_frecuency.jpeg)
+![Register-level Frecuency measurement](recursos/imgs/Registerlevel_frecuency.jpeg)
 
 This image shows the Register-level frecuency measurement and it was at 1.317 kHz.
 
