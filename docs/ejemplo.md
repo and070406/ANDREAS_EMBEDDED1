@@ -35,42 +35,43 @@ This image shows the Register-level frecuency measurement and it was at 1.317 kH
 
 ---
 
-## 4) Requisitos
+## What went wrong
 
-**Software**
-- _SO compatible (Windows/Linux/macOS)_
-- _Python 3.x / Node 18+ / Arduino IDE / etc._
-- _Dependencias (p. ej., pip/requirements, npm packages)_
 
-**Hardware (si aplica)**
-- _MCU / Sensores / Actuadores / Fuente de poder_
-- _Herramientas (multímetro, cautín, etc.)_
-
-**Conocimientos previos**
-- _Programación básica en X_
-- _Electrónica básica_
-- _Git/GitHub_
+- I forgot to  solder my Pi Pico 2 and couldn't use it, so I did it with my classmate.
+- When we ran the code we forgot to add 
+``` codigo
+sio_hw->gpio_oe_set = LED_MASK;
+```
 
 ---
 
-## 5) Instalación
+## Code
+### SDK 
 
-```bash
-# 1) Clonar
-git clone https://github.com/<usuario>/<repo>.git
-cd <repo>
+``` codigo
+```python
+gpio_init(LED);
+gpio_set_dir(LED, GPIO_OUT);
 
-# 2) (Opcional) Crear entorno virtual
-python -m venv .venv
-# macOS/Linux
-source .venv/bin/activate
-# Windows (PowerShell)
-.venv\Scripts\Activate.ps1
+while (true) {
+    gpio_put(LED, 1);
+    gpio_put(LED, 0);
+}
 
-# 3) Instalar dependencias (ejemplos)
-pip install -r requirements.txt
-# o, si es Node:
-npm install
+```
+### Register-level
 
+```python
+const uint32_t LED_MASK = 1u << LED;
 
+gpio_init(LED);
+sio_hw->gpio_oe_set = LED_MASK;
+
+while (true) {
+    sio_hw->gpio_set = LED_MASK;
+    sio_hw->gpio_clr = LED_MASK;
+}
+
+```
 ```
