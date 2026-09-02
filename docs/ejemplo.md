@@ -1,35 +1,37 @@
-# 📚 Ejemplo de Documentación del Proyecto
+# Session 3 & 4- Register level & GPIO
 
-> Plantilla genérica para documentar proyectos académicos o de ingeniería.  
-> Copia y adapta las secciones según tu necesidad.
 
----
+**Goal session 3 (one sentence):** Compare the signal and execution time between SDK GPIO timing instructions and registrer-Level.
 
-## 1) Resumen
-
-- **Nombre del proyecto:** _Andrea's embedded systems_  
-- **Equipo / Autor(es):** _Andrea Solano López_  
-- **Curso / Asignatura:** _Embedded Systems_  
-- **Fecha:** _25/08/2026_  
-- **Descripción breve:** _Una o dos líneas que expliquen qué hace y por qué._
+**Prediction:** The SDK GPIO has a slower execution so it takes a few extra cycles to run the code. This is why I think the frecuency levels of the register level instructions will be higher  
 
 !!! tip "Consejo"
     Mantén este resumen corto (máx. 5 líneas). Lo demás va en secciones específicas.
 
 ---
 
-## 2) Objetivos
+## Setup
 
-- **General:** _Qué se pretende lograr en términos amplios._
-- **Específicos:**
-  - _OE1…_
-  - _OE2…_
-  - _OE3…_
+- Pin map: GP18 was connected to the LED output and the scope CH1 probe was on GP18
 
-## 3) Alcance y Exclusiones
+---
 
-- **Incluye:** _Qué funcionalidades/entregables sí están en el proyecto._
-- **No incluye:** _Qué queda fuera para evitar malentendidos._
+## What I did
+
+1. I connected my Pico 2 to a breadboard and opened a new project from "Blink" in the VS Code extension.
+2. Ran SDK instructions.
+3. Connected and callibrated the oscilloscope  to measure the frequency.
+4. Deleted the SDK and replaced it with register-level instructions.
+5. Use the oscilloscope again with the same settings.
+
+## Evidence
+![SDK Frecuency measurement](recursos/imgs/SDK_frecuency.jpeg)
+
+This image shows the SDK frecuency that was at 792.4 Hz.
+
+![Register-level Frecuency measurement](recursos/imgs/registerlevel_frecuency.jpeg)
+
+This image shows the Register-level frecuency measurement and it was at 1.317 kHz.
 
 ---
 
