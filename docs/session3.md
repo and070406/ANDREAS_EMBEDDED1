@@ -72,7 +72,7 @@ while (true) {
 
 ---
 
-# Session 4 
+# **Session 4**
 
 **Goal session 3 (one sentence):** Complete 4 different level exercices that reproduce four classic pattern animations with four LEDs
 
@@ -92,7 +92,7 @@ while (true) {
 3. Wrote the coude for each exercise.
 4. Run each program and recordered it as evidence.
 
-- Setuo code we used in the exercises:
+Setup code we used in the exercises:
 ```python
 #define PIN_A 13
 #define PIN_B 12
@@ -129,7 +129,8 @@ while (true) {
     }
 }
 ```
- ### Evidence
+
+### Evidence
  
 
 ---
