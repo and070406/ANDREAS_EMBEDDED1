@@ -56,6 +56,7 @@ while (true) {
 }
 ``` 
 ### Register-level
+
 ```python
 const uint32_t LED_MASK = 1u << LED;
 
@@ -66,7 +67,9 @@ while (true) {
     sio_hw->gpio_set = LED_MASK;
     sio_hw->gpio_clr = LED_MASK;
 }
+
 ``` 
+
 ---
 
 # Session 4 
