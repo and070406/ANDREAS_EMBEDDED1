@@ -60,7 +60,7 @@ int main(void) {
     }
 }
 ```
-<video width="80%" controls preload="metadata">
+<video width="65%" controls preload="metadata">
   <source src="../recursos/imgs/AND_Gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
@@ -105,7 +105,7 @@ int main(void) {
     }
 }
 ```
-<video width="80%" controls preload="metadata">
+<video width="65%" controls preload="metadata">
   <source src="../recursos/imgs/OR_gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
@@ -151,7 +151,7 @@ int main(void) {
 }
 ```
 
-<video width="80%" controls preload="metadata">
+<video width="65%" controls preload="metadata">
   <source src="../recursos/imgs/XOR_gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
@@ -219,7 +219,7 @@ while (true) {
 }
 ```
 
-<video width="80%" controls preload="metadata">
+<video width="65%" controls preload="metadata">
   <source src="../recursos/imgs/exercise2.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
