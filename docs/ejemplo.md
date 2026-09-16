@@ -47,6 +47,7 @@ sio_hw->gpio_oe_set = LED_MASK;
 
 ``` codigo
 
+
 gpio_init(LED);
 gpio_set_dir(LED, GPIO_OUT);
 
