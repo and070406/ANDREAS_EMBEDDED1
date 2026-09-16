@@ -60,8 +60,10 @@ int main(void) {
     }
 }
 ```
-
-[../../img/AND_Gate.mp4](../../img/AND_Gate.mp4)
+<video width="100%" controls preload="metadata">
+  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/AND_Gate.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 
 ### Exercise 2 — OR gate
 
@@ -150,7 +152,10 @@ int main(void) {
 }
 ```
 
-REPLACE_WITH_VIDEO_EXERCISE_3
+<video width="100%" controls preload="metadata">
+  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/XOR_gate.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 
 ### Exercise 4 — Shift the lit LED left/right
 
@@ -215,7 +220,10 @@ while (true) {
 }
 ```
 
-REPLACE_WITH_VIDEO_EXERCISE_4
+<video width="100%" controls preload="metadata">
+  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/exercise2.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 
 ### What went wrong
 
