@@ -104,7 +104,7 @@ int main(void) {
 }
 ```
 
-REPLACE_WITH_VIDEO_EXERCISE_2
+[../../img/OR_gate.mp4](../../img/OR_gate.mp4)
 
 ### Exercise 3 — XOR gate
 
