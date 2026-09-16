@@ -103,8 +103,10 @@ int main(void) {
     }
 }
 ```
-
-[../../img/OR_gate.mp4](../../img/OR_gate.mp4)
+<video width="100%" controls preload="metadata">
+  <source src="../../img/OR_gate.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 
 ### Exercise 3 — XOR gate
 
