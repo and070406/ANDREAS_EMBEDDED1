@@ -104,7 +104,7 @@ int main(void) {
 }
 ```
 <video width="100%" controls preload="metadata">
-  <source src="../../img/OR_gate.mp4" type="video/mp4">
+  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/OR_gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
 
