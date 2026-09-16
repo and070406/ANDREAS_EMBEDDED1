@@ -61,7 +61,7 @@ int main(void) {
 }
 ```
 <video width="100%" controls preload="metadata">
-  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/AND_Gate.mp4" type="video/mp4">
+  <source src="../recursos/imgs/AND_Gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
 
@@ -106,10 +106,9 @@ int main(void) {
 }
 ```
 <video width="100%" controls preload="metadata">
-  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/OR_gate.mp4" type="video/mp4">
+  <source src="../recursos/imgs/OR_gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
-
 ### Exercise 3 — XOR gate
 
 The LED turns on when **exactly one** of the two buttons is pressed, using boolean variables `a` and `b` combined with the `^` operator instead of masking the raw register directly.
@@ -153,7 +152,7 @@ int main(void) {
 ```
 
 <video width="100%" controls preload="metadata">
-  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/XOR_gate.mp4" type="video/mp4">
+  <source src="../recursos/imgs/XOR_gate.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
 
@@ -221,7 +220,7 @@ while (true) {
 ```
 
 <video width="100%" controls preload="metadata">
-  <source src="ANDREAS_EMBEDDED1/docs/recursos/imgs/exercise2.mp4" type="video/mp4">
+  <source src="../recursos/imgs/exercise2.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
 

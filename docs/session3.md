@@ -92,7 +92,7 @@ while (true) {
 3. Wrote the coude for each exercise.
 4. Run each program and recordered it as evidence.
 
-- Setuo code we used in the exercises:
+- Setup code we used in the exercises:
 ```python
 #define PIN_A 13
 #define PIN_B 12
