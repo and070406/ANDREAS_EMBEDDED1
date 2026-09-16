@@ -162,7 +162,7 @@ while (true) {
 }
 ```
 ### Evidence
-<video width="100%" controls preload="metadata">
+<video width="75%" controls preload="metadata">
   <source src="../recursos/imgs/bouncing_light.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
@@ -186,7 +186,7 @@ while (true) {
 }
 ```
 ### Evidence
-<video width="100%" controls preload="metadata">
+<video width="75%" controls preload="metadata">
   <source src="../recursos/imgs/fill_empty.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
