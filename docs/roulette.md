@@ -167,8 +167,12 @@ int main(void)
     }
 }
 ```
+### Evidence
 
-REPLACE_WITH_VIDEO
+<video width="65%" controls preload="metadata">
+  <source src="../recursos/imgs/roulette.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 
 ### What went wrong
 
