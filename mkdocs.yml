@@ -1,4 +1,13 @@
 site_name: Lablog Embedded Systems I
+
+nav:
+  - Home: index.md
+  - Session 3 & 4 - Register level & GPIO: session3.md
+  - Digital Inputs: digital_inputs.md
+  - LED Roulette with Interrupts: roulette.md
+  - Exam 1: "Exam 1.md"
+  - 🚀 Comandos básicos de Git (primeros pasos): gitcmds.md
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
