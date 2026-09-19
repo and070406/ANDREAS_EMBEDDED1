@@ -1,0 +1,55 @@
+[33mcommit 01833d8900b1d39eb79bd24674c10e0e472f7ae9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: c0adcd7 1835f3b
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Fri Sep 18 21:26:15 2026 -0600
+
+    Merge branch 'main' of origin, resolving conflict on docs/ejemplo.md
+
+[33mcommit 6f20b3acad2f6c66d5ae3621a8149693853fdf7f[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Wed Sep 16 13:24:56 2026 -0600
+
+    tamaño
+
+[33mcommit ce9a369201efc7687565a52d4f7d8ac6842daabc[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Wed Sep 16 13:22:20 2026 -0600
+
+    evidence
+
+[33mcommit fe0b21e3652fd65898e19c59fffba59b6298fb94[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Wed Sep 16 13:19:05 2026 -0600
+
+    video
+
+[33mcommit 338638493c8b4ae8942a6e7cff1803f38a847ae1[m
+Merge: 8de6380 5104cfc
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Wed Sep 16 12:57:20 2026 -0600
+
+    Merge branch 'main' of origin, resolving conflict on docs/ejemplo.md
+
+[33mcommit c0adcd746aad8bb57912e90725a53c1a5baefbdf[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Fri Sep 4 19:39:55 2026 -0600
+
+    negritas
+
+[33mcommit 5104cfca6a7fda8af423d9e876518c0dfa8cd459[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Fri Sep 4 19:36:29 2026 -0600
+
+    -
+
+[33mcommit a9b7a87cafb76a026d8847ec3c3efca2f3e6d402[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Fri Sep 4 19:33:44 2026 -0600
+
+    spaces
+
+[33mcommit 7d0236618abeb537aa3063d2a7ef97a6b6d3e99b[m
+Author: and070406 <andrea.solano.lopez@iberopuebla.mx>
+Date:   Fri Sep 4 19:32:29 2026 -0600
+
+    session4

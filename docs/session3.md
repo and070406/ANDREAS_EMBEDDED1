@@ -131,7 +131,10 @@ while (true) {
 ```
 
 ### Evidence
- 
+<video width="65%" controls preload="metadata">
+  <source src="../recursos/imgs/4bit.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video> 
 
 ---
 
@@ -161,6 +164,10 @@ while (true) {
 ```
 ### Evidence
 
+<video width="65%" controls preload="metadata">
+  <source src="../recursos/imgs/bouncing_light.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 ---
 
 ## Exercise 3
@@ -182,6 +189,10 @@ while (true) {
 ```
 ### Evidence
 
+<video width="65%" controls preload="metadata">
+  <source src="../recursos/imgs/fill_empty.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 ---
 
 
@@ -206,6 +217,10 @@ while (true) {
 
 ### Evidence
 
+<video width="65%" controls preload="metadata">
+  <source src="../recursos/imgs/outside_inward.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video HTML5.
+</video>
 ---
 
 ## What went wrong
