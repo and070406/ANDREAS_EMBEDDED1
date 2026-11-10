@@ -76,4 +76,4 @@ Full files at `src/adc/Fotorresistencia.c` and `src/adc/adcmicrosencillo.c`.
 
 ## Open question
 
-For the electret, a single sample every 100 ms can't really "hear" anything. Next session I want to sample fast (e.g. ~8–10 kHz with a tight loop or the ADC FIFO / free-running mode), compute the **peak-to-peak or RMS over a 100 ms window** around the 2048 bias, and compare *that* against a threshold. I'd also like to check the actual bias point of my front end — if it's not close to 2048, a fixed `2110` threshold could be almost always "alto" or never "alto" depending on the resistors.
+The microphone code compares a single raw sample against `NOISE_THRESHOLD = 2110`. Would the peak-to-peak value or the RMS over a window of samples classify the noise more reliably than one sample?
