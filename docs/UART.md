@@ -1,4 +1,5 @@
-# UART — Two-Pico Button/LED Mirror
+# UART
+## Two-Pico Button/LED Mirror
 
 **Goal (one sentence):** Connect two Pico 2 boards through UART0 so that pressing a button on one board turns on the matching LED on the other board, and releasing it turns that LED off — in both directions, with the same firmware on both boards.
 

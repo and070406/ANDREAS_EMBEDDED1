@@ -1,63 +1,79 @@
-# UART — Two-Pico Button/LED Mirror
+# ADC 
+## Photoresistor (LDR) with EMA Filter + Electret Microphone Threshold
 
-**Goal (one sentence):** Connect two Pico 2 boards through UART0 so that pressing a button on one board turns on the matching LED on the other board, and releasing it turns that LED off — in both directions, with the same firmware on both boards.
+**Goal (one sentence):** Read two analog sensors on the Pico 2 W through ADC0 (GP26): an LDR, filtered with an exponential moving average (EMA) and converted to volts and a 0–100 % light level, and an electret microphone, compared against a fixed raw threshold to flag "high noise".
 
 ---
 
+## Prediction
+
+The RP2350 ADC is 12-bit with VREF = 3.3 V, so:
+
+- `1 LSB = 3.3 V / 4096 ≈ 0.806 mV`  `V = raw · 3.3 / 4095`
+- **LDR level:** `Nivel = (y − LDR_MIN) · 100 / (LDR_MAX − LDR_MIN)`, with `LDR_MIN = 9` and `LDR_MAX = 3600` taken from the darkest and brightest raw values I saw before writing the code. Covered → **≈ 0 %**; flashlight on top → **high, but < 100 %** (the flashlight was never pointed perfectly into the LDR).
+- **EMA filter:** `y = α·x + (1 − α)·y` with `α = 1/16`. At one sample every 100 ms, the time constant is ≈ `Ts / α = 0.1 s · 16 = 1.6 s`, so after a sudden light change the filtered value should only reach ~63 % of the jump after ~1.6 s and ~95 % after ~4.8 s. **I expect `Filtro` to visibly lag `Raw`.**
+- **Electret threshold:** the mic signal is biased around mid-scale (`3.3 V / 2 = 1.65 V ≈ 2048`). The threshold `2110` is `2110 · 3.3 / 4095 ≈ 1.70 V`, i.e. ~62 LSB (~50 mV) above the bias point, so only a reasonably loud sound should print "Ruido alto".
+
 ## Setup
 
-- Pin map (identical on both boards): `TX_PIN`=GP0 (UART0 TX), `RX_PIN`=GP1 (UART0 RX); `Button_A`=GP12, `Button_B`=GP13, `Button_C`=GP14; `Led_A`=GP16, `Led_B`=GP17, `Led_C`=GP18 (each LED with its series resistor).
-- Board-to-board wiring: GP0 (TX) of board 1 → GP1 (RX) of board 2, GP0 (TX) of board 2 → GP1 (RX) of board 1, and a shared GND between both breadboards.
-- Photo of the setup: ![Two Pico 2 boards connected through UART0, 3 buttons and 3 LEDs on each](../img/uart_setup.jpg)
-- Non-default: internal pull-ups on the three buttons (`gpio_pull_up`), so a press reads **0**. UART0 configured as 115200 baud, 8 data bits, 1 stop bit, no parity (`uart_set_format(UART_ID, 8, 1, UART_PARITY_NONE)`). Default 150 MHz `clk_sys`, nothing else changed.
+- Pin map: `LDR_GPIO_PIN` = GP26 → `LDR_ADC_INPUT` = ADC0. The same pin/channel is used for the electret (one sensor at a time, separate programs).
+- **LDR:** voltage divider between 3.3 V and GND, midpoint to GP26. The reading **goes up with light**, so the LDR is on the 3.3 V side and the fixed resistor on the GND side.
+  ![LDR divider on the breadboard, midpoint wired to GP26](../img/adc_ldr_setup.jpg)
+- **Electret:** electret capsule with its bias resistor, a coupling capacitor and a resistor divider that centers the signal around mid-supply before GP26.
+  ![Electret microphone front end on the breadboard, output to GP26](../img/adc_electret_setup.jpg)
+- Non-default: none. `adc_gpio_init(26)` disables the digital input buffer and pulls on the pin; ADC in free single-shot mode (`adc_read()`), default 150 MHz `clk_sys`. USB serial monitor at 115200 baud.
 
 ## What I did
 
-1. Wired 3 buttons (GP12–GP14) and 3 LEDs (GP16–GP18) on each breadboard, then crossed TX/RX between the two Picos and joined their grounds.
-2. Configured GP0/GP1 as `GPIO_FUNC_UART` and initialized `uart0` at 115200 8N1.
-3. Defined a tiny protocol of one character per event: uppercase (`'A'`, `'B'`, `'C'`) = button pressed → LED on; lowercase (`'a'`, `'b'`, `'c'`) = button released → LED off.
-4. Used one flag per button so each letter is sent **only once** per press/release edge, and on the receive side read every byte available with `while (uart_is_readable(...))`, acting only on those six letters.
-5. Flashed the same program to both boards, tested every button in both directions and recorded a short demo (audio removed): `img/uart_demo.mp4`.
+1. Initialized the ADC (`adc_init`, `adc_gpio_init(26)`, `adc_select_input(0)`) and printed raw values to find the dark/bright extremes of the LDR → used them as `LDR_MIN = 9` and `LDR_MAX = 3600`.
+2. Added the EMA filter from the course notes (`α = 0.0625`), seeded with the first sample so it doesn't start from 0.
+3. Converted the filtered value to volts and to a percentage, and printed `Raw | Filtro | Voltaje | Nivel` every 100 ms.
+4. Recorded a demo: hands covering the LDR, then uncovered (room light), then a phone flashlight on top and moving away → `img/adc_ldr_demo.mp4` (audio removed).
+5. Swapped the LDR for the electret front end and flashed `adcmicrosencillo.c`, which prints the raw value every 100 ms and labels it "Ruido alto" when `raw > 2110`, otherwise "Ruido normal".
 
 ---
 
 ## Evidence
 
-| #  | File | What it shows | |
+| #  | File | What it shows | Reading on the serial monitor |
 | --- | --- | --- | --- |
-| E1 | `img/uart_demo.mp4` | ~0:01–0:04: a button is pressed on the bottom board and the LED on the top board turns on while the button is held | Board 2 → Board 1 direction works |
-| E2 | `img/uart_demo.mp4` | ~0:05–0:09: a button is pressed on the top board and the matching LED on the bottom board turns on, then turns off on release | Board 1 → Board 2 direction works, and the release (lowercase letter) turns it off |
+| E1 | `img/adc_ldr_demo.mp4` | ~0:00–0:04: LDR covered with both hands | Raw = 37, Filtro = 37, 0.03 V, Nivel = 0 % |
+| E2 | `img/adc_ldr_demo.mp4` | ~0:06: hands removed, room light | Raw ≈ 782–787, **Filtro ≈ 488–489**, 0.39–0.40 V, Nivel = 13 % (filter still climbing) |
+| E3 | `img/adc_ldr_demo.mp4` | ~0:09: light increasing | Raw = 799–1028, Filtro = 742–765, 0.60 V, Nivel = 20 % |
+| E4 | `img/adc_ldr_demo.mp4` | ~0:12: flashlight on the LDR | **Raw = 3039 / 2906, Filtro = 2397 / 2429**, 1.93–1.96 V, Nivel = 66–67 % |
+| E5 | `img/adc_ldr_demo.mp4` | ~0:15: flashlight moving away | **Raw = 1072, Filtro = 2653**, 2.14 V, Nivel = 73 % (filter still high) |
 
-<video controls muted width="100%" src="../../img/uart_demo.mp4"></video>
+<video controls muted width="100%" src="../../img/adc_ldr_demo.mp4"></video>
+
+Spot-check of the conversion with E4: `2397 · 3.3 / 4095 = 1.93 V` ✔ and `(2429 − 9) · 100 / 3591 = 67 %` ✔ — the printed values match the formulas.
 
 ## What went wrong
 
-- **Letters sent over and over:** the first version did `if (gpio_get(Button_A) == 0) uart_putc(UART_ID, 'A');` inside the loop, so as long as the button was held it kept sending `'A'` every 10 ms — the other board received a continuous stream instead of one event. Fix: add `flag_a` / `flag_b` / `flag_c` so the letter is sent only on the **edge** (when the button goes from released to pressed) and a lowercase letter only when it goes back.
-- **LEDs turning off by themselves (`else` on the receiver):** in that first version I only sent uppercase letters to turn LEDs on, and the receiver did `if (c == 'A') gpio_put(Led_A, 1); else gpio_put(Led_A, 0);`. On the terminal it looked like only my letters were arriving, but there were "gaps" where something else was received that didn't show (non-printable characters such as `\r`/`\n`, or simply the letter of a *different* button). Any byte that wasn't `'A'` fell into the `else` and turned LED A off, even though I was still holding the button. Fix: send an explicit **off** command (`'a'`, `'b'`, `'c'`) on release and remove the generic `else` — now each LED only changes when its own two letters arrive, and any other byte is ignored.
+- **Wiring error on the temperature sensor:** we made a mistake when connecting the temperature sensor, so it did not give a valid reading at first and we had to recheck the wiring before it worked. *(Evidence to be added.)*
+- **No instrumented electret, so only a simple noise detector:** we didn't buy the electret module with its own amplifier, so we only had the bare capsule with a basic bias/divider front end. Its signal is small, so instead of actually measuring sound level we built a simple noise detector: one raw sample compared against a fixed threshold (`2110`, ≈ 1.70 V) that prints "Ruido alto" / "Ruido normal".
+- **Calibrating the potentiometer reading took some effort:** getting the potentiometer measurement to map correctly to its full range took several tries, because the real minimum and maximum raw values were not exactly 0 and 4095. *(Evidence to be added.)*
 
 ## Code
 
 ```c
-// --- SEND: only on edges (flag), not every loop iteration ---
-if (gpio_get(Button_A) == 0 && flag_a == 0) {
-    uart_putc(UART_ID, 'A');      // pressed
-    flag_a = 1;
-} else if (gpio_get(Button_A) == 1 && flag_a == 1) {
-    uart_putc(UART_ID, 'a');      // released
-    flag_a = 0;
-}
-...
-// --- RECEIVE: only react to our own letters, no generic else ---
-while (uart_is_readable(UART_ID)) {
-    char c = uart_getc(UART_ID);
-    if (c == 'A')      gpio_put(Led_A, 1);
-    else if (c == 'a') gpio_put(Led_A, 0);   // any other byte is ignored
-    ...
-}
-sleep_ms(10);
+// LDR — EMA filter + conversion (Fotorresistencia.c)
+uint16_t x = adc_read();                       // 0..4095
+if (!y_init) { y = (float)x; y_init = true; }  // seed with first sample
+else          y = alpha * (float)x + (1.0f - alpha) * y;   // alpha = 1/16
+
+uint16_t y_u16 = (uint16_t)(y + 0.5f);
+float voltaje  = (y_u16 * 3.3f) / 4095.0f;
+int porcentaje = ((y_u16 - LDR_MIN) * 100) / (LDR_MAX - LDR_MIN);
+
+// Electret — fixed threshold (adcmicrosencillo.c)
+uint16_t m = adc_read();
+if (m > 2110) printf("Raw=%u | Ruido alto\n", m);    // ~1.70 V, ~62 LSB above mid-scale
+else          printf("Raw=%u | Ruido normal\n", m);
+sleep_ms(100);
 ```
 
-Full file at `src/uart/uart.c`.
+Full files at `src/adc/Fotorresistencia.c` and `src/adc/adcmicrosencillo.c`.
 
 ## Open question
-How should I separate debugging messages (`printf`) from protocol characters so the boot message never turns on an LED on the other board?
+
+For the electret, a single sample every 100 ms can't really "hear" anything. Next session I want to sample fast (e.g. ~8–10 kHz with a tight loop or the ADC FIFO / free-running mode), compute the **peak-to-peak or RMS over a 100 ms window** around the 2048 bias, and compare *that* against a threshold. I'd also like to check the actual bias point of my front end — if it's not close to 2048, a fixed `2110` threshold could be almost always "alto" or never "alto" depending on the resistors.
