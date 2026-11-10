@@ -184,5 +184,4 @@ Full file at `src/pwm/piano.c`.
 ---
 
 ## Open question
-
-At 2 kHz the LED looked steady, but would a phone camera show banding (the notes recommend 10–20 kHz)? Next time: compare 2 kHz vs `DIV_1` (36.6 kHz) on camera, and try `pwm_set_phase_correct(slice, true)` — it should halve the frequency (count up *and* down) and, per the notes, cancel the even harmonics, which I'd like to see with the scope's FFT.
+With `TOP = 1023`, how large is the frequency error of each note after the divider is calculated, and is it audible on the buzzer?
