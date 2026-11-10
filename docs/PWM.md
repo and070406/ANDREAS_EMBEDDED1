@@ -38,30 +38,30 @@ A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 
 | #  | File | What it shows | Cursor / measured value |
 | --- | --- | --- | --- |
-| E1 | `img/pwm_scope1.png` | Course code as-is, fade running (smeared falling edge = changing duty) | f = 2.002 kHz, T = 499.6 µs, duty mean 50.09 %, σ 28.94 %, min +W 3.998 µs |
-| E2 | `img/pwm_scope2.png` | Fade, integer divider 73 (calculator value) | f = 2.006 kHz, T = 498.4 µs, duty mean 47.64 %, σ 29.60 % — Min T = 350 ns / Max f = 2.857 MHz (bad stats) |
-| E3 | `img/pwm_scope3.png` | Same as E2, acquisition stopped (single frame) | f = 2.007 kHz, T = 498.2 µs, duty 60.75 % (snapshot), mean 47.76 %, σ 28.18 % |
-| E4 | `img/pwm_scope4.png` | `DIV_10`, `TOP = 4095`, fade, 100 µs/div | f = 3.662 kHz, T = 273.1 µs, mean 50.31 %, σ 29.24 % |
-| E5 | `img/pwm_scope5.png` | `DIV_1`, `TOP = 4095`, fade, 10 µs/div | f = 36.62 kHz, T = 27.31 µs, mean 48.04 %, σ 27.73 % |
-| E6 | `img/pwm_scope6.png` | Fixed duty 35 % | f = 2.007 kHz, T = 498.4 µs, +W = 174.4 µs, duty = 35.00 % |
-| E7 | `img/pwm_scope7.png` | Fixed duty 87 % | f = 2.006 kHz, T = 498.4 µs, +W = 433.6 µs, duty = 87.00 % |
-| E8 | `img/pwm_scope8.png` | Fixed duty 20 % | f = 2.006 kHz, T = 498.4 µs, +W = 99.67 µs, duty = 20.00 % |
+| E1 | `imgs/pwm_scope1.png` | Course code as-is, fade running (smeared falling edge = changing duty) | f = 2.002 kHz, T = 499.6 µs, duty mean 50.09 %, σ 28.94 %, min +W 3.998 µs |
+| E2 | `imgs/pwm_scope2.png` | Fade, integer divider 73 (calculator value) | f = 2.006 kHz, T = 498.4 µs, duty mean 47.64 %, σ 29.60 % — Min T = 350 ns / Max f = 2.857 MHz (bad stats) |
+| E3 | `imgs/pwm_scope3.png` | Same as E2, acquisition stopped (single frame) | f = 2.007 kHz, T = 498.2 µs, duty 60.75 % (snapshot), mean 47.76 %, σ 28.18 % |
+| E4 | `imgs/pwm_scope4.png` | `DIV_10`, `TOP = 4095`, fade, 100 µs/div | f = 3.662 kHz, T = 273.1 µs, mean 50.31 %, σ 29.24 % |
+| E5 | `imgs/pwm_scope5.png` | `DIV_1`, `TOP = 4095`, fade, 10 µs/div | f = 36.62 kHz, T = 27.31 µs, mean 48.04 %, σ 27.73 % |
+| E6 | `imgs/pwm_scope6.png` | Fixed duty 35 % | f = 2.007 kHz, T = 498.4 µs, +W = 174.4 µs, duty = 35.00 % |
+| E7 | `imgs/pwm_scope7.png` | Fixed duty 87 % | f = 2.006 kHz, T = 498.4 µs, +W = 433.6 µs, duty = 87.00 % |
+| E8 | `imgs/pwm_scope8.png` | Fixed duty 20 % | f = 2.006 kHz, T = 498.4 µs, +W = 99.67 µs, duty = 20.00 % |
 
-![E1 — course fade, 2.002 kHz](../img/pwm_scope1.png)
+![E1 — course fade, 2.002 kHz](recursos/imgs/pwm_scope1.png)
 
-![E2 — fade after reflash, 2.006 kHz (polluted Min/Max)](../img/pwm_scope2.png)
+![E2 — fade after reflash, 2.006 kHz (polluted Min/Max)](recursos/imgs/pwm_scope2.png)
 
-![E3 — fade, single frame](../img/pwm_scope3.png)
+![E3 — fade, single frame](recursos/imgs/pwm_scope3.png)
 
-![E4 — DIV_10, TOP 4095: 3.662 kHz](../img/pwm_scope4.png)
+![E4 — DIV_10, TOP 4095: 3.662 kHz](recursos/imgs/pwm_scope4.png)
 
-![E5 — DIV_1, TOP 4095: 36.62 kHz](../img/pwm_scope5.png)
+![E5 — DIV_1, TOP 4095: 36.62 kHz](recursos/imgs/pwm_scope5.png)
 
-![E6 — fixed 35 %](../img/pwm_scope6.png)
+![E6 — fixed 35 %](recursos/imgs/pwm_scope6.png)
 
-![E7 — fixed 87 %](../img/pwm_scope7.png)
+![E7 — fixed 87 %](recursos/imgs/pwm_scope7.png)
 
-![E8 — fixed 20 %](../img/pwm_scope8.png)
+![E8 — fixed 20 %](recursos/imgs/pwm_scope8.png)
 
 ## Predicted vs measured
 
@@ -133,7 +133,7 @@ Every note stays within **+0.07 %** of the target, much less than the ≈ 0.3 % 
 ## Setup
 
 - Pin map: GP2 (`BUZZER_PIN`) → series resistor → speaker (+), speaker (−) → GND; GP3–GP10 → 8 note buttons (C6 … C7); GP11 → `BTN_UP`, GP12 → `BTN_DOWN` (level ± 64).
-- Photo of the breadboard: ![Breadboard setup — Pico 2 W, 10 buttons on GP3–GP12, resistor to the speaker on GP2](../img/pwm_piano_setup.jpg)
+- Photo of the breadboard: ![Breadboard setup — Pico 2 W, 10 buttons on GP3–GP12, resistor to the speaker on GP2](recursos/imgs/pwm_piano_setup.jpg)
 - Non-default: internal pull-ups on GP3–GP12 (`gpio_pull_up`), so every button is active-low; buttons read straight from `sio_hw->gpio_in`. The divider is a **float** computed from `clock_get_hz(clk_sys)`, not an integer typed in by hand.
 
 ## What I did
@@ -149,7 +149,7 @@ Every note stays within **+0.07 %** of the target, much less than the ≈ 0.3 % 
 | --- | --- | --- | --- |
 | E9  | `img/pwm_piano_demo.mp4` | Playing the piano, all 8 keys used (C6 at 0 s, D6/F6 at ~3.5 s, G6 at ~5.5 s, C7 at ~10 s, B6/A6 at ~12–15 s) | Each key gives a different steady tone; silence between presses |
 
-<video controls width="100%" src="../../img/pwm_piano_demo.mp4"></video>
+<video controls width="100%" src="/docs/recursos/imgs/pwm_piano_demo.mp4"></video>
 
 ## What went wrong
 

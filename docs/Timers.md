@@ -39,11 +39,11 @@ With a negative delay (`-TOGGLE_MS`) the callbacks are scheduled start-to-start,
 | E2 | `img/timers_scope2.png` | `TOGGLE_MS = 10`, 50× zoom (4 ms/div) | f = 50.00 Hz, T = 20.00 ms, +W = 10.00 ms, −W = 9.995 ms, σ(T) = 1.939 µs |
 | E3 | `img/timers_scope3.png` | Same as E2, captured 3 s later | f = 50.01 Hz, T = 20.00 ms, +W = 9.999 ms, −W = 9.999 ms, σ(T) = 1.914 µs |
 
-![E1 — TOGGLE_MS = 250 ms: 2 Hz, 50 % duty](../img/timers_scope1.png)
+![E1 — TOGGLE_MS = 250 ms: 2 Hz, 50 % duty](recursos/imgs/timers_scope1.png)
 
-![E2 — TOGGLE_MS = 10 ms: 50 Hz, zoom 50×](../img/timers_scope2.png)
+![E2 — TOGGLE_MS = 10 ms: 50 Hz, zoom 50×](recursos/imgs/timers_scope2.png)
 
-![E3 — TOGGLE_MS = 10 ms, 3 s later](../img/timers_scope3.png)
+![E3 — TOGGLE_MS = 10 ms, 3 s later](recursos/imgs/timers_scope3.png)
 
 ## Predicted vs measured
 
