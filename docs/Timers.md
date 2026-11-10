@@ -1,96 +1,88 @@
-# Timers
+# Timers 
+## Session- Repeating Timer on GP15 (Predict vs Measure)
 
-## Session — Repeating Timers and Timing Measurements
-
-**Goal (one sentence):** Generate a periodic signal with a Pico SDK repeating timer (without blocking `main()`) and measure how the callback duration and the sign of the delay affect the real timing.
+**Goal (one sentence):** Generate a square wave on GP15 from an SDK repeating timer (no `sleep_ms` in the loop), predict its period, frequency and duty cycle from `TOGGLE_MS`, and check the prediction on the oscilloscope.
 
 ---
 
-### Setup
+## Prediction
 
-- Pin mapping: GP15 is the timed output (oscilloscope CH1), GP14 marks the callback duration (CH2), GND is the probe ground.
-- Toggling a GPIO every `TOGGLE_MS` gives a waveform period of `2 * TOGGLE_MS`, so `f = 1000 / (2 * TOGGLE_MS)`.
-- A **negative** delay schedules callbacks relative to their start time; a **positive** delay waits until the callback finishes.
+The callback toggles GP15 once every `TOGGLE_MS`, so one full period is one HIGH plus one LOW:
 
-### What I did
+- `T = 2 · TOGGLE_MS`  `f = 1 / T = 1000 / (2 · TOGGLE_MS)` Hz  duty = 50 % (HIGH and LOW both last `TOGGLE_MS`)
+- `TOGGLE_MS = 250` → HIGH = LOW = 250 ms, **T = 500 ms**, **f = 1000 / 500 = 2.000 Hz**
+- `TOGGLE_MS = 10` → HIGH = LOW = 10 ms, **T = 20 ms**, **f = 1000 / 20 = 50.00 Hz**
 
-1. Wrote a repeating timer that toggles GP15 every 250 ms and predicted period, frequency and duty cycle before measuring.
-2. Changed only `TOGGLE_MS` (250 → 100 → 50 → 10 ms) and compared predicted vs. measured frequency.
-3. Added `busy_wait_us_32(WORK_US)` inside the callback and compared `-TIMER_DELAY_MS` vs `+TIMER_DELAY_MS`.
+With a negative delay (`-TOGGLE_MS`) the callbacks are scheduled start-to-start, so I expected **no drift**: at most a few µs of jitter from interrupt latency on each edge.
 
-### Exercise — Measure a repeating timer
+## Setup
+
+- Pin map: GP15 → scope CH1 (timer output); scope ground → a Pico GND pin only. GP14 (CH2 callback marker) was not used in these captures.
+- Photo of the breadboard: *not taken this session* (only the Pico and the probe on GP15 / GND).
+- Non-default: none. Default 150 MHz `clk_sys`, timer at its default 1 µs tick, no pulls, no external parts. Scope at 5 kS/s, 10k points, trigger on CH1 rising edge.
+
+## What I did
+
+1. Copied the course repeating-timer code, set `OUT_PIN = 15`, `TOGGLE_MS = 250`, `add_repeating_timer_ms(-TOGGLE_MS, …)`.
+2. Built and flashed; probed GP15 on CH1, 200 ms/div, added Frequency / Period / +Width / −Width measurements → E1.
+3. Changed `TOGGLE_MS` to `10`, rebuilt and flashed.
+4. Zoomed in 50× (4 ms/div) on the 200 ms/div record → E2.
+5. Saved a second capture 3 s later to check repeatability → E3.
+
+---
+
+## Evidence
+
+| #  | File | What it shows | Cursor / measured value |
+| --- | --- | --- | --- |
+| E1 | `img/timers_scope1.png` | `TOGGLE_MS = 250`, four full periods at 200 ms/div | f = 2.000 Hz, T = 500.0 ms, +W = 250.0 ms, −W = 250.0 ms |
+| E2 | `img/timers_scope2.png` | `TOGGLE_MS = 10`, 50× zoom (4 ms/div) | f = 50.00 Hz, T = 20.00 ms, +W = 10.00 ms, −W = 9.995 ms, σ(T) = 1.939 µs |
+| E3 | `img/timers_scope3.png` | Same as E2, captured 3 s later | f = 50.01 Hz, T = 20.00 ms, +W = 9.999 ms, −W = 9.999 ms, σ(T) = 1.914 µs |
+
+![E1 — TOGGLE_MS = 250 ms: 2 Hz, 50 % duty](../img/timers_scope1.png)
+
+![E2 — TOGGLE_MS = 10 ms: 50 Hz, zoom 50×](../img/timers_scope2.png)
+
+![E3 — TOGGLE_MS = 10 ms, 3 s later](../img/timers_scope3.png)
+
+## Predicted vs measured
+
+| Quantity | Predicted | Measured (evidence #) | Error % | Why the difference |
+| --- | --- | --- | --- | --- |
+| Period, `TOGGLE_MS = 250` | 500 ms | 500.0 ms (E1) | 0.00 % | Real error is µs-level; the 4-digit readout resolves only 0.1 ms |
+| Frequency, `TOGGLE_MS = 250` | 2.000 Hz | 2.000 Hz (E1) | 0.00 % | Same as above |
+| HIGH / LOW, `TOGGLE_MS = 250` | 250 / 250 ms | 250.0 / 250.0 ms (E1) | 0.00 % | 50 % duty, as expected from a toggle |
+| Period, `TOGGLE_MS = 10` | 20 ms | 20.00 ms (E2, E3) | 0.00 % | σ ≈ 1.9 µs is interrupt-latency jitter, far below 10 µs display step |
+| Frequency, `TOGGLE_MS = 10` | 50.00 Hz | 50.00 Hz (E2) / 50.01 Hz (E3) | 0.00 % / +0.02 % | Last-digit variation between captures (jitter + scope rounding) |
+| LOW time, `TOGGLE_MS = 10` | 10 ms | 9.995 ms (E2) / 9.999 ms (E3) | −0.05 % / −0.01 % | 5 kS/s = 200 µs per sample; the edge position is interpolated, so a few µs of jitter shows up |
+
+**Conclusion:** `T = 2 · t_toggle` and `f = 1 / (2 · t_toggle)` hold for both values; the waveform is a clean 50 % square wave and changing `TOGGLE_MS` is the only thing needed to move the frequency.
+
+## What went wrong
+
+- **"Too perfect" readings — we couldn't see any delay:** we expected something like 500.12 ms or 501 ms (callback/interrupt overhead adding up), but E1 reads exactly **500.0 ms** and E2 exactly **20.00 ms**. At first we thought the scope was "correcting" the value. What we found by looking at the numbers again:
+
+## Code
 
 ```c
-#include <stdio.h>
-#include "pico/stdlib.h"
-#include "pico/time.h"
+#define OUT_PIN    15
+#define TOGGLE_MS  250          // only line changed between runs (250 → 10)
 
-#define SIGNAL_PIN          15
-#define CALLBACK_MARK_PIN   14
-#define TIMER_DELAY_MS      100
-#define WORK_US             20000   // 0 for the baseline
-#define USE_NEGATIVE_DELAY  1       // 1 = start-to-start, 0 = end-to-start
-
-static repeating_timer_t timer;
-
-static bool timer_callback(repeating_timer_t *rt) {
-    static bool state = false;
-
-    gpio_put(CALLBACK_MARK_PIN, 1);
-    state = !state;
-    gpio_put(SIGNAL_PIN, state);
-    busy_wait_us_32(WORK_US);       // intentional workload
-    gpio_put(CALLBACK_MARK_PIN, 0);
-
-    return true;                    // keep repeating
+static bool toggle_cb(repeating_timer_t *t) {
+    level = !level;
+    gpio_put(OUT_PIN, level);   // short callback, no sleeps
+    return true;                // keep repeating
 }
 
-int main() {
-    stdio_init_all();
-
-    gpio_init(SIGNAL_PIN);
-    gpio_set_dir(SIGNAL_PIN, GPIO_OUT);
-    gpio_init(CALLBACK_MARK_PIN);
-    gpio_set_dir(CALLBACK_MARK_PIN, GPIO_OUT);
-
-    int32_t delay_ms = USE_NEGATIVE_DELAY ? -TIMER_DELAY_MS : TIMER_DELAY_MS;
-    add_repeating_timer_ms(delay_ms, timer_callback, NULL, &timer);
-
-    while (true) {
-        printf("Main is still running\n");
-        sleep_ms(1000);
-    }
+int main(void) {
+    ...
+    repeating_timer_t timer;
+    // negative delay: start-to-start scheduling → jitter but no drift
+    add_repeating_timer_ms(-TOGGLE_MS, toggle_cb, NULL, &timer);
+    while (true) tight_loop_contents();   // main() is free
 }
 ```
 
-| Configuration | Expected interval | Measured interval |
-| ------------- | ----------------- | ----------------- |
-| `-100 ms`, `WORK_US = 0` |  |  |
-| `-100 ms`, `WORK_US = 20000` |  |  |
-| `+100 ms`, `WORK_US = 20000` |  |  |
+## Open question
 
-### AI Assistance
-
-**Prompt used:**
-
-> _Paste the prompt here_
-
-**AI response (summary):**
-
-> _Paste the response here_
-
-**What I verified / changed:**
-
-- _Write here_
-
-### Evidence
-
-_Paste oscilloscope screenshots / video here_
-
-### What went wrong
-
-_Write here_
-
-### Open question
-
-- _Write here_
+If the callback had real work in it (e.g. a 20 ms `busy_wait_ms`), how big would the difference between `-100` and `+100` be on the scope? With a positive delay the callback time should add to every period (≈ 120 ms instead of 100 ms per toggle) — that one should be large enough to see even at this scope resolution, unlike the µs-level jitter above. Want to measure it with the GP14 marker on CH2.
