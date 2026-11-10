@@ -85,4 +85,5 @@ int main(void) {
 
 ## Open question
 
-If the callback had real work in it (e.g. a 20 ms `busy_wait_ms`), how big would the difference between `-100` and `+100` be on the scope? With a positive delay the callback time should add to every period (≈ 120 ms instead of 100 ms per toggle) — that one should be large enough to see even at this scope resolution, unlike the µs-level jitter above. Want to measure it with the GP14 marker on CH2.
+At `TOGGLE_MS = 10`, how much jitter does the oscilloscope show on the toggle interval, and does it grow when `main()` does extra work (printing, reading buttons)?
+
