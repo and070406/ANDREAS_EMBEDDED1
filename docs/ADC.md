@@ -18,9 +18,9 @@ The RP2350 ADC is 12-bit with VREF = 3.3 V, so:
 
 - Pin map: `LDR_GPIO_PIN` = GP26 → `LDR_ADC_INPUT` = ADC0. The same pin/channel is used for the electret (one sensor at a time, separate programs).
 - **LDR:** voltage divider between 3.3 V and GND, midpoint to GP26. The reading **goes up with light**, so the LDR is on the 3.3 V side and the fixed resistor on the GND side.
-  ![LDR divider on the breadboard, midpoint wired to GP26](../img/adc_ldr_setup.jpg)
+  ![LDR divider on the breadboard, midpoint wired to GP26](recursos/imgs/adc_ldr_setup.jpg)
 - **Electret:** electret capsule with its bias resistor, a coupling capacitor and a resistor divider that centers the signal around mid-supply before GP26.
-  ![Electret microphone front end on the breadboard, output to GP26](../img/adc_electret_setup.jpg)
+  ![Electret microphone front end on the breadboard, output to GP26](recursos/imgs/adc_electret_setup.jpg)
 - Non-default: none. `adc_gpio_init(26)` disables the digital input buffer and pulls on the pin; ADC in free single-shot mode (`adc_read()`), default 150 MHz `clk_sys`. USB serial monitor at 115200 baud.
 
 ## What I did
@@ -44,7 +44,7 @@ The RP2350 ADC is 12-bit with VREF = 3.3 V, so:
 | E5 | `img/adc_ldr_demo.mp4` | ~0:15: flashlight moving away | **Raw = 1072, Filtro = 2653**, 2.14 V, Nivel = 73 % (filter still high) |
 
 <video width="65%" controls preload="metadata">
-  <source src="../recursos/imgs/adc_ldr_demo.mp4" type="video/mp4">
+  <source src="docs/recursos/imgs/adc_ldr_demo.mp4" type="video/mp4">
   Tu navegador no soporta la reproducción de video HTML5.
 </video>
 

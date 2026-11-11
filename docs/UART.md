@@ -9,7 +9,7 @@
 
 - Pin map (identical on both boards): `TX_PIN`=GP0 (UART0 TX), `RX_PIN`=GP1 (UART0 RX); `Button_A`=GP12, `Button_B`=GP13, `Button_C`=GP14; `Led_A`=GP16, `Led_B`=GP17, `Led_C`=GP18 (each LED with its series resistor).
 - Board-to-board wiring: GP0 (TX) of board 1 → GP1 (RX) of board 2, GP0 (TX) of board 2 → GP1 (RX) of board 1, and a shared GND between both breadboards.
-- Photo of the setup: ![Two Pico 2 boards connected through UART0, 3 buttons and 3 LEDs on each](../img/uart_setup.jpg)
+- Photo of the setup: ![Two Pico 2 boards connected through UART0, 3 buttons and 3 LEDs on each](recursos/imgs/uart_setup.jpg)
 - Non-default: internal pull-ups on the three buttons (`gpio_pull_up`), so a press reads **0**. UART0 configured as 115200 baud, 8 data bits, 1 stop bit, no parity (`uart_set_format(UART_ID, 8, 1, UART_PARITY_NONE)`). Default 150 MHz `clk_sys`, nothing else changed.
 
 ## What I did
@@ -29,7 +29,7 @@
 | E1 | `img/uart_demo.mp4` | ~0:01–0:04: a button is pressed on the bottom board and the LED on the top board turns on while the button is held | Board 2 → Board 1 direction works |
 | E2 | `img/uart_demo.mp4` | ~0:05–0:09: a button is pressed on the top board and the matching LED on the bottom board turns on, then turns off on release | Board 1 → Board 2 direction works, and the release (lowercase letter) turns it off |
 
-<video controls muted width="100%" src="../../img/uart_demo.mp4"></video>
+<video controls muted width="100%" src="docs/recursos/imgs/uart_demo.mp4"></video>
 
 ## What went wrong
 
