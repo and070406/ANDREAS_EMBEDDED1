@@ -29,7 +29,7 @@
 | E1 | `img/uart_demo.mp4` | ~0:01–0:04: a button is pressed on the bottom board and the LED on the top board turns on while the button is held | Board 2 → Board 1 direction works |
 | E2 | `img/uart_demo.mp4` | ~0:05–0:09: a button is pressed on the top board and the matching LED on the bottom board turns on, then turns off on release | Board 1 → Board 2 direction works, and the release (lowercase letter) turns it off |
 
-<video controls muted width="100%" src="docs/recursos/imgs/uart_demo.mp4"></video>
+<video controls muted width="100%" src="recursos/imgs/uart_demo.mp4"></video>
 
 ## What went wrong
 
