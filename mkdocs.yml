@@ -12,7 +12,7 @@ nav:
       - Session 6 — UART: UART.md
   - Block 3 Analog and buses:
       - Session 7 — ADC: ADC.md
-      - Session 8 — I2C: 12C.md
+      - Session 8 — I2C: I2C.md
   - 🚀 Comandos básicos de Git (primeros pasos): gitcmds.md
 
 markdown_extensions:
