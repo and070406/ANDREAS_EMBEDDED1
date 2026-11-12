@@ -2,6 +2,7 @@ site_name: Lablog Embedded Systems I
 
 nav:
   - Home: index.md
+  - Block 1 GPIO:
   - Session 3 & 4 - Register level & GPIO: session3.md
   - Digital Inputs: digital_inputs.md
   - LED Roulette with Interrupts: roulette.md
