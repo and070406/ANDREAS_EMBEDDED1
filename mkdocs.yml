@@ -5,7 +5,7 @@ nav:
   - Session 3 & 4 - Register level & GPIO: session3.md
   - Digital Inputs: digital_inputs.md
   - LED Roulette with Interrupts: roulette.md
-  - Exam 1: Exam 1.md
+  - Exam 1: Exam1.md
   - Block 2 Timing and serial:
       - Session 4 — Timers: Timers.md
       - Session 5 — PWM: PWM.md
