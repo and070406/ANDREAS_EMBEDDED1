@@ -149,7 +149,7 @@ Every note stays within **+0.07 %** of the target, much less than the ≈ 0.3 % 
 | --- | --- | --- | --- |
 | E9  | `img/pwm_piano_demo.mp4` | Playing the piano, all 8 keys used (C6 at 0 s, D6/F6 at ~3.5 s, G6 at ~5.5 s, C7 at ~10 s, B6/A6 at ~12–15 s) | Each key gives a different steady tone; silence between presses |
 
-<video controls width="100%" src="../recursos/imgs/pwm_piano_demo.mp4"></video>
+<video controls width="100%" src="recursos/imgs/pwm_piano_demo.mp4"></video>
 
 ## What went wrong
 

@@ -67,10 +67,7 @@ Spot-check of the conversion with E4: `2397 · 3.3 / 4095 = 1.93 V` ✔ and `(24
 | E10 | `adc_pot_temp_demo.mp4` | ~0:11: pot turned all the way down                   | raw = 0, ema = 368 → 345 → 323, angle = 24 → 22 → 21° (EMA going down)  |
 | E11 | `adc_pot_temp_demo.mp4` | ~0:14 and ~0:17: two more pot positions              | raw = 1533 → 101°; raw = 4078 → 268°                                    |
 
-<video controls width="100%">
-  <source src="../recursos/imgs/adc_pot_temp_demo.mp4" type="video/mp4">
-  Your browser can't play this video. <a href="../recursos/imgs/adc_pot_temp_demo.mp4">Download adc_pot_temp_demo.mp4</a>
-</video>
+<video controls muted width="100%" src="recursos/imgs/adc_pot_temp_demo.mp4"></video>
 
 Spot-check with E7: `4095 / 461 − 1 = 7.883`, `ln(1 / 7.883) = −2.065`, `1 / (−2.065 / 3950 + 1 / 298.15) = 353.19 K = 80.04 °C` ✔. For the pot, E11 gives `1533 · 270 / 4095 = 101.1 → 101°` ✔. Once the EMA settles the NTC reading stays within ~0.05 °C of the slider (E6, E7, E9), and the raw value drops when the temperature goes up (E7 vs E8), which confirms the prediction that the NTC is on the low side of the divider. In E10 each new EMA value is `368 · 15/16 = 345` and `345 · 15/16 = 323`, exactly the `α = 1/16` decay.
 
