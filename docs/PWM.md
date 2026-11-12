@@ -5,9 +5,9 @@
 
 ---
 
-# Part 1 — LED Fade, Clock Divider and Fixed Duty
+## Part 1 — LED Fade, Clock Divider and Fixed Duty
 
-## Prediction
+### Prediction
 
 A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 
@@ -18,13 +18,13 @@ A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 - **Fixed duty** at 2 kHz, `TOP = 1023`: 35 % → `+W ≈ 175 µs`, 87 % → `+W ≈ 435 µs`, 20 % → `+W ≈ 100 µs`
 - **Fade** (`step = 8`, `sleep_ms(5)`): the level sweeps 0 → TOP → 0 like a triangle, so a random scope snapshot sees a roughly uniform duty between 0 and 100 %: **mean ≈ 50 %**, **σ ≈ 100 / √12 = 28.9 %**. Ramp time ≈ `(TOP / 8) · 5 ms` = 0.64 s for `TOP = 1023` (2.56 s for `TOP = 4095`).
 
-## Setup
+### Setup
 
 - Pin map: `LED_PIN` = GP2 → LED (with series resistor) **and** scope CH1; scope ground → a Pico GND pin.
 - Photo of the breadboard: *not taken this session* (Pico 2 W, one LED on GP2, probe on GP2 / GND).
 - Non-default: none. Default 150 MHz `clk_sys` (the course text says 125 MHz, but the example code hard-codes 150 MHz — with 125 MHz the same divider would give ≈ 1.67 kHz instead of 2 kHz). Scope at 5 MS/s (200 µs/div) for the 2 kHz runs, 10 MS/s and 100 MS/s for the faster ones; 10k points, trigger on CH1 rising edge at 920 mV.
 
-## What I did
+### What I did
 
 1. Flashed the course `pwm_led.c` (fade, 2 kHz, `TOP = 1023`) and probed GP2 at 200 µs/div with Frequency / Period / +Width / Duty measurements → E1–E3.
 2. Did the divider math by hand with a calculator and left it as an **integer** (`div = 73` instead of 73.24), reflashed and measured again → E2, E3.
@@ -34,7 +34,7 @@ A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 
 ---
 
-## Evidence
+### Evidence
 
 | #  | File | What it shows | Cursor / measured value |
 | --- | --- | --- | --- |
@@ -63,7 +63,7 @@ A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 
 ![E8 — fixed 20 %](recursos/imgs/pwm_scope8.png)
 
-## Predicted vs measured
+### Predicted vs measured
 
 | Quantity | Predicted | Measured (evidence #) | Error % | Why the difference |
 | --- | --- | --- | --- | --- |
@@ -82,7 +82,7 @@ A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 
 **Conclusion:** `f = f_clk / (div · (TOP + 1))` predicted every frequency to within the divider's fractional resolution, and `duty = level / (TOP + 1)` gave the fixed duties to within one scope sample. Lowering the divider ×10 multiplies the frequency ×10 (E4 → E5) without changing the duty behavior; `TOP` trades frequency for resolution.
 
-## What went wrong
+### What went wrong
 
 - **2.002 / 2.007 kHz instead of 2.000 kHz:** the prediction said exactly 2 kHz, but E1 reads 2.002 kHz and the later runs 2.006–2.007 kHz. Two causes, both in the divider:
     - With the course float (E1): the RP2350 stores the divider as 8 integer + 4 fractional bits (steps of 1/16), and `pwm_set_clkdiv()` **truncates** the float, so 73.24 becomes 73.1875 → 2001.5 Hz.
@@ -91,7 +91,7 @@ A PWM slice counts `0 … TOP` at `clk_sys / div`, so:
 - **Polluted statistics:** E2/E3 show Min period = 350 ns and Max frequency = 2.857 MHz, which are impossible for a 2 kHz PWM. They came from glitches while reflashing / reconnecting the probe, and the statistics were never reset. We trusted only the `Value` and `Mean` columns; next time press *Reset Statistics* after the signal settles.
 - **"Value" duty means nothing during the fade:** E1–E5 show duties of 17 %, 60 %, 79 %, 95 %… depending on when the snapshot was taken. For the fade, the useful numbers are Mean (≈ 50 %) and Std Dev (≈ 28.9 %), not `Value`.
 
-## Code
+### Code
 
 ```c
 #define TOP       1023                              // 10-bit (4095 for DIV_10 / DIV_1)
@@ -111,9 +111,9 @@ The code above was reconstructed from the course `pwm_led.c` after the session, 
 
 ---
 
-# Part 2 — 8-Key PWM Piano
+## Part 2 — 8-Key PWM Piano
 
-## Divider per note
+### Divider per note
 
 Same formula as Part 1, solved for the divider: `div = f_clk / (f_note · (TOP + 1))`, with `f_clk = clock_get_hz(clk_sys)` = 150 MHz and `TOP = 1023`. The hardware keeps the divider in steps of 1/16, so the note that comes out is `150 MHz / (⌊16·div⌋/16 · 1024)`:
 
@@ -130,20 +130,20 @@ Same formula as Part 1, solved for the divider: `div = f_clk / (f_note · (TOP +
 
 Every note stays within **+0.07 %** of the target, much less than the ≈ 0.3 % (5 cents) an ear can notice. Duty starts at 50 % (`level = 512`), the square wave with the strongest fundamental.
 
-## Setup
+### Setup
 
 - Pin map: GP2 (`BUZZER_PIN`) → series resistor → speaker (+), speaker (−) → GND; GP3–GP10 → 8 note buttons (C6 … C7); GP11 → `BTN_UP`, GP12 → `BTN_DOWN` (level ± 64).
 - Photo of the breadboard: ![Breadboard setup — Pico 2 W, 10 buttons on GP3–GP12, resistor to the speaker on GP2](recursos/imgs/pwm_piano_setup.jpg)
 - Non-default: internal pull-ups on GP3–GP12 (`gpio_pull_up`), so every button is active-low; buttons read straight from `sio_hw->gpio_in`. The divider is a **float** computed from `clock_get_hz(clk_sys)`, not an integer typed in by hand.
 
-## What I did
+### What I did
 
 1. Wired 8 note buttons on GP3–GP10, two level buttons on GP11/GP12, and the speaker through a resistor on GP2.
 2. Wrote `piano.c`: `TOP = 1023` fixed, a table `NOTAS[8]`, and in the loop the first pressed key sets `pwm_set_clkdiv(slice, f_clk / (NOTAS[i] · 1024))` and enables the slice; no key → slice disabled (silence).
 3. Added `BTN_UP` / `BTN_DOWN` to move the channel level in steps of 64 (6.25 % duty), clamped to 0 … TOP.
 4. Flashed it, played a few melodies across all 8 keys and recorded it with sound: `img/pwm_piano_demo.mp4`.
 
-## Evidence
+### Evidence
 
 | #  | File | What it shows | Observation |
 | --- | --- | --- | --- |
@@ -151,13 +151,13 @@ Every note stays within **+0.07 %** of the target, much less than the ≈ 0.3 % 
 
 <video controls width="100%" src="recursos/imgs/pwm_piano_demo.mp4"></video>
 
-## What went wrong
+### What went wrong
 
 - **One key at a time (by design, but it surprised us):** pressing two keys plays only the lower one, because the `for` loop `break`s on the first pressed key and a slice can only produce one frequency. A chord would need a second slice/pin.
 - **`sleep_ms(150)` in the volume buttons blocks the keys:** while `BTN_UP`/`BTN_DOWN` is held, the loop only runs every ~155 ms, so the note keys respond late. It's acceptable for a demo; a timer/IRQ-based debounce (like Session 8) would fix it.
 - **The "volume" buttons don't really change volume linearly:** they change the duty. The loudest fundamental is at 50 % (`level = 512`); moving up *or* down from there makes the tone quieter and thinner, and at 0 % or 100 % (level 0 / TOP) there is no sound at all.
 
-## Code (piano)
+### Code (piano)
 
 ```c
 #define TOP 1023
@@ -181,5 +181,5 @@ if (!note_pressed) pwm_set_enabled(slice, false);   // silence
 
 ---
 
-## Open question
+### Open question
 With `TOP = 1023`, how large is the frequency error of each note after the divider is calculated, and is it audible on the buzzer?
