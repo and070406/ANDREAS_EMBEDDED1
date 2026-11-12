@@ -58,7 +58,5 @@ while (uart_is_readable(UART_ID)) {
 sleep_ms(10);
 ```
 
-Full file at `src/uart/uart.c`.
-
 ## Open question
 How should I separate debugging messages (`printf`) from protocol characters so the boot message never turns on an LED on the other board?
