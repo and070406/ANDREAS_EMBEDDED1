@@ -1,0 +1,1205 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../UART/">
+      
+      
+        <link rel="next" href="../I2C/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Session 7 — ADC - Lablog Embedded Systems I</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#adc" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Lablog Embedded Systems I" class="md-header__button md-logo" aria-label="Lablog Embedded Systems I" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lablog Embedded Systems I
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Session 7 — ADC
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Lablog Embedded Systems I" class="md-nav__button md-logo" aria-label="Lablog Embedded Systems I" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Lablog Embedded Systems I
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block 1 GPIO
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Block 1 GPIO
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../session3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 3 & 4 - Register level & GPIO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../digital_inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Inputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roulette/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LED Roulette with Interrupts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exam1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exam 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block 2 Timing and serial
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Block 2 Timing and serial
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Timers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 4 — Timers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PWM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 5 — PWM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../UART/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 6 — UART
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block 3 Analog and buses
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Block 3 Analog and buses
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 7 — ADC
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 7 — ADC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ldr-electret-on-adc0-potentiometer-angle-and-ntc-temperature-on-two-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDR + Electret on ADC0, Potentiometer Angle and NTC Temperature on Two Channels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-did" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I did
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-went-wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What went wrong
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open question
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../I2C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session 8 — I2C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gitcmds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Comandos básicos de Git (primeros pasos)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ldr-electret-on-adc0-potentiometer-angle-and-ntc-temperature-on-two-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDR + Electret on ADC0, Potentiometer Angle and NTC Temperature on Two Channels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-did" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I did
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-went-wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What went wrong
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open question
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="adc">ADC</h1>
+<h2 id="ldr-electret-on-adc0-potentiometer-angle-and-ntc-temperature-on-two-channels">LDR + Electret on ADC0, Potentiometer Angle and NTC Temperature on Two Channels</h2>
+<p><strong>Goal (one sentence):</strong> Use the RP2350 ADC on the Pico 2 W to read an LDR (EMA-filtered, shown in volts and as a 0–100 % light level) and an electret microphone (fixed raw threshold for "high noise") on ADC0, and then read a potentiometer (ADC1, mapped to 0–270°) and an NTC thermistor (ADC0, converted to °C with the Beta equation) in the same loop by switching the input channel.</p>
+<hr />
+<h2 id="prediction">Prediction</h2>
+<p>The RP2350 ADC is 12-bit with VREF = 3.3 V, so:</p>
+<ul>
+<li><code>1 LSB = 3.3 V / 4096 ≈ 0.806 mV</code> <code>V = raw · 3.3 / 4095</code></li>
+<li><strong>LDR level:</strong> <code>Nivel = (y − LDR_MIN) · 100 / (LDR_MAX − LDR_MIN)</code>, with <code>LDR_MIN = 9</code> and <code>LDR_MAX = 3600</code> taken from the darkest and brightest raw values I saw before writing the code. Covered → <strong>≈ 0 %</strong>; flashlight on top → <strong>high, but &lt; 100 %</strong> (the flashlight was never pointed perfectly into the LDR).</li>
+<li><strong>EMA filter:</strong> <code>y = α·x + (1 − α)·y</code> with <code>α = 1/16</code>. At one sample every 100 ms, the time constant is ≈ <code>Ts / α = 0.1 s · 16 = 1.6 s</code>, so after a sudden light change the filtered value should only reach ~63 % of the jump after ~1.6 s and ~95 % after ~4.8 s. <strong>I expect <code>Filtro</code> to visibly lag <code>Raw</code>.</strong></li>
+<li><strong>Electret threshold:</strong> the mic signal is biased around mid-scale (<code>3.3 V / 2 = 1.65 V ≈ 2048</code>). The threshold <code>2110</code> is <code>2110 · 3.3 / 4095 ≈ 1.70 V</code>, i.e. ~62 LSB (~50 mV) above the bias point, so only a reasonably loud sound should print "Ruido alto".</li>
+<li><strong>Potentiometer angle:</strong> <code>grados = ema · 270 / 4095</code>, so each LSB is worth <code>270 / 4095 ≈ 0.066°</code>. Ends of travel → <strong>0°</strong> and <strong>270°</strong>; wiper in the middle (raw ≈ 2048) → <strong>≈ 135°</strong>.</li>
+<li><strong>NTC temperature:</strong> with the Beta equation (<code>β = 3950</code>, <code>T0 = 25 °C = 298.15 K</code>) and the NTC in a divider with a resistor equal to its nominal value, 25 °C should read <strong>raw ≈ 2048</strong>. Since the NTC resistance drops when it heats up and it sits on the low side of the divider, I expect <strong>hotter → lower raw value</strong> and colder → higher raw value. The same <code>α = 1/16</code> EMA is used on both channels, so a step should need ~16 samples to reach ~63 % of the change.</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<ul>
+<li>Pin map: <code>LDR_GPIO_PIN</code> = GP26 → <code>LDR_ADC_INPUT</code> = ADC0. The same pin/channel is used for the electret (one sensor at a time, separate programs). In the pot + NTC program: GP27 → ADC1 (<code>Pot_INPUT</code>) and GP26 → ADC0 (<code>Temp_INPUT</code>).</li>
+<li><strong>LDR:</strong> voltage divider between 3.3 V and GND, midpoint to GP26. The reading <strong>goes up with light</strong>, so the LDR is on the 3.3 V side and the fixed resistor on the GND side. <img alt="LDR divider on the breadboard, midpoint wired to GP26" src="../recursos/imgs/adc_ldr_setup.jpg" /></li>
+<li><strong>Electret:</strong> electret capsule with its bias resistor, a coupling capacitor and a resistor divider that centers the signal around mid-supply before GP26. <img alt="Electret microphone front end on the breadboard, output to GP26" src="../recursos/imgs/adc_electret_setup.jpg" /></li>
+<li><strong>Potentiometer + NTC (simulated in Wokwi):</strong> the pot wiper goes to GP27 (ADC1) and the analog output of the NTC temperature module goes to GP26 (ADC0); both take 3.3 V and GND from the Pico 2. The temperature is changed with the sensor's slider inside the simulator. <img alt="Wokwi circuit with the potentiometer on GP27 and the NTC module on GP26" src="../recursos/imgs/adc_pot_temp_setup.jpg" /></li>
+<li>Non-default: none. <code>adc_gpio_init()</code> disables the digital input buffer and pulls on each analog pin; ADC in free single-shot mode (<code>adc_read()</code>), default 150 MHz <code>clk_sys</code>. USB serial monitor at 115200 baud.</li>
+</ul>
+<h2 id="what-i-did">What I did</h2>
+<ol>
+<li>Initialized the ADC (<code>adc_init</code>, <code>adc_gpio_init(26)</code>, <code>adc_select_input(0)</code>) and printed raw values to find the dark/bright extremes of the LDR → used them as <code>LDR_MIN = 9</code> and <code>LDR_MAX = 3600</code>.</li>
+<li>Added the EMA filter from the course notes (<code>α = 0.0625</code>), seeded with the first sample so it doesn't start from 0.</li>
+<li>Converted the filtered value to volts and to a percentage, and printed <code>Raw | Filtro | Voltaje | Nivel</code> every 100 ms.</li>
+<li>Recorded a demo: hands covering the LDR, then uncovered (room light), then a phone flashlight on top and moving away → <code>adc_ldr_demo.mp4</code> (audio removed).</li>
+<li>Swapped the LDR for the electret front end and flashed <code>adcmicrosencillo.c</code>, which prints the raw value every 100 ms and labels it "Ruido alto" when <code>raw &gt; 2110</code>, otherwise "Ruido normal".</li>
+<li>Built <code>pot_temp.c</code> in Wokwi to read two sensors in one loop: <code>adc_select_input(1)</code> for the pot, then <code>adc_select_input(0)</code> for the NTC, each one with its own EMA. The pot is mapped to <code>grados = ema · 270 / 4095</code> and the NTC is converted to °C with the Beta equation (<code>β = 3950</code>, <code>T0 = 25 °C</code>). The loop runs every 10 ms.</li>
+<li>While recording the serial monitor, moved the NTC slider (18.8 → 80 → −24 °C) and turned the pot through its range → <code>adc_pot_temp_demo.mp4</code>.</li>
+</ol>
+<hr />
+<h2 id="evidence">Evidence</h2>
+<p><strong>LDR (real board):</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>File</th>
+<th>What it shows</th>
+<th>Reading on the serial monitor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td><code>adc_ldr_demo.mp4</code></td>
+<td>~0:00–0:04: LDR covered with both hands</td>
+<td>Raw = 37, Filtro = 37, 0.03 V, Nivel = 0 %</td>
+</tr>
+<tr>
+<td>E2</td>
+<td><code>adc_ldr_demo.mp4</code></td>
+<td>~0:06: hands removed, room light</td>
+<td>Raw ≈ 782–787, <strong>Filtro ≈ 488–489</strong>, 0.39–0.40 V, Nivel = 13 % (filter still climbing)</td>
+</tr>
+<tr>
+<td>E3</td>
+<td><code>adc_ldr_demo.mp4</code></td>
+<td>~0:09: light increasing</td>
+<td>Raw = 799–1028, Filtro = 742–765, 0.60 V, Nivel = 20 %</td>
+</tr>
+<tr>
+<td>E4</td>
+<td><code>adc_ldr_demo.mp4</code></td>
+<td>~0:12: flashlight on the LDR</td>
+<td><strong>Raw = 3039 / 2906, Filtro = 2397 / 2429</strong>, 1.93–1.96 V, Nivel = 66–67 %</td>
+</tr>
+<tr>
+<td>E5</td>
+<td><code>adc_ldr_demo.mp4</code></td>
+<td>~0:15: flashlight moving away</td>
+<td><strong>Raw = 1072, Filtro = 2653</strong>, 2.14 V, Nivel = 73 % (filter still high)</td>
+</tr>
+</tbody>
+</table>
+<video controls width="100%">
+  <source src="../recursos/imgs/adc_ldr_demo.mp4" type="video/mp4">
+  Your browser can't play this video. <a href="../recursos/imgs/adc_ldr_demo.mp4">Download adc_ldr_demo.mp4</a>
+</video>
+
+<p>Spot-check of the conversion with E4: <code>2397 · 3.3 / 4095 = 1.93 V</code> ✔ and <code>(2429 − 9) · 100 / 3591 = 67 %</code> ✔ — the printed values match the formulas.</p>
+<p><strong>Potentiometer + NTC (Wokwi):</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>File</th>
+<th>What it shows</th>
+<th>Reading on the serial monitor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E6</td>
+<td><code>adc_pot_temp_demo.mp4</code></td>
+<td>~0:01: NTC at the default 24 °C, pot at its maximum</td>
+<td>NTC raw = 2093 → <strong>24.00 °C</strong>; pot raw = 4095 → 270°</td>
+</tr>
+<tr>
+<td>E7</td>
+<td><code>adc_pot_temp_demo.mp4</code></td>
+<td>~0:03: slider moved up to 80.0 °C</td>
+<td>NTC raw = 461 → <strong>80.04 °C</strong></td>
+</tr>
+<tr>
+<td>E8</td>
+<td><code>adc_pot_temp_demo.mp4</code></td>
+<td>~0:05: slider moved down to −24.0 °C</td>
+<td>raw = 3813, ema = 3734 → 3744 → −19.70 / −20.20 °C (EMA not settled yet)</td>
+</tr>
+<tr>
+<td>E9</td>
+<td><code>adc_pot_temp_demo.mp4</code></td>
+<td>~0:08: NTC settled at −24.0 °C, pot around the middle</td>
+<td>NTC raw = 3813 → <strong>−23.98 °C</strong>; pot raw = 1941, ema = 1949 → 128°</td>
+</tr>
+<tr>
+<td>E10</td>
+<td><code>adc_pot_temp_demo.mp4</code></td>
+<td>~0:11: pot turned all the way down</td>
+<td>raw = 0, ema = 368 → 345 → 323, angle = 24 → 22 → 21° (EMA going down)</td>
+</tr>
+<tr>
+<td>E11</td>
+<td><code>adc_pot_temp_demo.mp4</code></td>
+<td>~0:14 and ~0:17: two more pot positions</td>
+<td>raw = 1533 → 101°; raw = 4078 → 268°</td>
+</tr>
+</tbody>
+</table>
+<video controls muted width="100%" src="../recursos/imgs/adc_pot_temp_demo.mp4"></video>
+
+<p>Spot-check with E7: <code>4095 / 461 − 1 = 7.883</code>, <code>ln(1 / 7.883) = −2.065</code>, <code>1 / (−2.065 / 3950 + 1 / 298.15) = 353.19 K = 80.04 °C</code> ✔. For the pot, E11 gives <code>1533 · 270 / 4095 = 101.1 → 101°</code> ✔. Once the EMA settles the NTC reading stays within ~0.05 °C of the slider (E6, E7, E9), and the raw value drops when the temperature goes up (E7 vs E8), which confirms the prediction that the NTC is on the low side of the divider. In E10 each new EMA value is <code>368 · 15/16 = 345</code> and <code>345 · 15/16 = 323</code>, exactly the <code>α = 1/16</code> decay.</p>
+<h2 id="what-went-wrong">What went wrong</h2>
+<ul>
+<li><strong>Wiring error on the temperature sensor:</strong> the temperature sensor was connected wrong the first time, so it didn't give a valid reading and we had to check the wiring again before it worked.</li>
+<li><strong>No instrumented electret, so only a simple noise detector:</strong> we didn't buy the electret module with its own amplifier, so we only had the bare capsule with a basic bias/divider front end. Its signal is small, so instead of actually measuring sound level we built a simple noise detector: one raw sample compared against a fixed threshold (<code>2110</code>, ≈ 1.70 V) that prints "Ruido alto" / "Ruido normal".</li>
+<li><strong>Calibrating the potentiometer reading took some effort:</strong> it took several attempts to make the pot reading cover its whole range, until the raw values 0–4095 lined up with the real ends of the potentiometer (0° and 270°).</li>
+</ul>
+<h2 id="code">Code</h2>
+<p><strong>Shared setup code</strong> (same ADC initialization in the three programs — only the channels and the loop body change):</p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"pico/stdlib.h"</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"hardware/adc.h"</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;math.h&gt;</span><span class="w">        </span><span class="c1">// log() for the NTC Beta equation</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="cp">#define LDR_GPIO_PIN   26   </span><span class="c1">// GP26 -&gt; ADC0 (LDR / electret / NTC)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="cp">#define LDR_ADC_INPUT  0</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="cp">#define Temp_INPUT     0    </span><span class="c1">// ADC0 -&gt; GP26</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="cp">#define Pot_INPUT      1    </span><span class="c1">// ADC1 -&gt; GP27</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="cp">#define LDR_MIN        9</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="cp">#define LDR_MAX        3600</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="cp">#define BETA           3950.0</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0625f</span><span class="p">;</span><span class="w">   </span><span class="c1">// EMA weight = 1/16</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">stdio_init_all</span><span class="p">();</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">adc_init</span><span class="p">();</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">adc_gpio_init</span><span class="p">(</span><span class="mi">26</span><span class="p">);</span><span class="w">             </span><span class="c1">// analog mode on GP26 (no digital buffer, no pulls)</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">adc_gpio_init</span><span class="p">(</span><span class="mi">27</span><span class="p">);</span><span class="w">             </span><span class="c1">// only in pot_temp.c</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">adc_select_input</span><span class="p">(</span><span class="n">LDR_ADC_INPUT</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>LDR — EMA filter + conversion (<code>Fotorresistencia.c</code>)</strong></p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">();</span><span class="w">                       </span><span class="c1">// 0..4095</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">y_init</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="n">y_init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c1">// first sample seeds the filter</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">else</span><span class="w">          </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">   </span><span class="c1">// alpha = 1/16</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">y_u16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">);</span><span class="w">         </span><span class="c1">// round the filtered value</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kt">float</span><span class="w"> </span><span class="n">voltaje</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">y_u16</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">3.3f</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">4095.0f</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kt">int</span><span class="w"> </span><span class="n">porcentaje</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">y_u16</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">LDR_MIN</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">LDR_MAX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">LDR_MIN</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Electret — fixed threshold (<code>adcmicrosencillo.c</code>)</strong></p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">();</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2110</span><span class="p">)</span><span class="w"> </span><span class="n">printf</span><span class="p">(</span><span class="s">"Raw=%u | Ruido alto</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">);</span><span class="w">    </span><span class="c1">// ~1.70 V, ~62 LSB above mid-scale</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">else</span><span class="w">          </span><span class="n">printf</span><span class="p">(</span><span class="s">"Raw=%u | Ruido normal</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">sleep_ms</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Potentiometer + NTC — two channels in one loop (<code>pot_temp.c</code>)</strong></p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Channel 1: potentiometer (GP27 -&gt; ADC1)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">adc_select_input</span><span class="p">(</span><span class="n">Pot_INPUT</span><span class="p">);</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">xp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">();</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">xp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="p">;</span><span class="w">          </span><span class="c1">// EMA of the pot</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">grados</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">270</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4095</span><span class="p">;</span><span class="w">  </span><span class="c1">// 0..270 degrees</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1">// Channel 0: NTC thermistor (GP26 -&gt; ADC0)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">adc_select_input</span><span class="p">(</span><span class="n">Temp_INPUT</span><span class="p">);</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">xt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read</span><span class="p">();</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">xt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w">          </span><span class="c1">// EMA of the NTC</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="kt">double</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">);</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kt">float</span><span class="w"> </span><span class="n">temperatura</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mf">4095.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BETA</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">                    </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">298.15</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">273.15</span><span class="p">);</span><span class="w">       </span><span class="c1">// Beta equation, T0 = 25 °C -&gt; °C</span>
+</span></code></pre></div>
+<h2 id="open-question">Open question</h2>
+<p>The microphone code compares a single raw sample against <code>NOISE_THRESHOLD = 2110</code>. Would the peak-to-peak value or the RMS over a window of samples classify the noise more reliably than one sample?</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.tooltips"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
