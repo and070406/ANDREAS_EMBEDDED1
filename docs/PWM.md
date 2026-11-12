@@ -107,7 +107,7 @@ pwm_set_chan_level(slice, chan, level);
 pwm_set_enabled(slice, true);
 ```
 
-Full file at `src/pwm/pwm_led.c` (reconstructed from the course `pwm_led.c` after the session with the integer dividers we used; the exact lab file was not saved).
+The code above was reconstructed from the course `pwm_led.c` after the session, with the integer dividers we used (the exact lab file was not saved).
 
 ---
 
@@ -178,8 +178,6 @@ for (int i = 0; i < 8; i++) {
 }
 if (!note_pressed) pwm_set_enabled(slice, false);   // silence
 ```
-
-Full file at `src/pwm/piano.c`.
 
 ---
 
