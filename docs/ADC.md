@@ -82,6 +82,30 @@ Spot-check with E7: `4095 / 461 − 1 = 7.883`, `ln(1 / 7.883) = −2.065`, `1 /
 
 ## Code
 
+**Shared setup code** (same ADC initialization in the three programs — only the channels and the loop body change):
+
+```c
+#include "pico/stdlib.h"
+#include "hardware/adc.h"
+#include <math.h>        // log() for the NTC Beta equation
+
+#define LDR_GPIO_PIN   26   // GP26 -> ADC0 (LDR / electret / NTC)
+#define LDR_ADC_INPUT  0
+#define Temp_INPUT     0    // ADC0 -> GP26
+#define Pot_INPUT      1    // ADC1 -> GP27
+#define LDR_MIN        9
+#define LDR_MAX        3600
+#define BETA           3950.0
+
+const float alpha = 0.0625f;   // EMA weight = 1/16
+
+stdio_init_all();
+adc_init();
+adc_gpio_init(26);             // analog mode on GP26 (no digital buffer, no pulls)
+adc_gpio_init(27);             // only in pot_temp.c
+adc_select_input(LDR_ADC_INPUT);
+```
+
 **LDR — EMA filter + conversion (`Fotorresistencia.c`)**
 
 ```c
@@ -120,8 +144,6 @@ double a = (double)(uint16_t)(t + 0.5f);
 float temperatura = (float)(1.0 / (log(1.0 / (4095.0 / a - 1.0)) / BETA
                     + 1.0 / 298.15) - 273.15);       // Beta equation, T0 = 25 °C -> °C
 ```
-
-Full files at `src/adc/Fotorresistencia.c`, `src/adc/adcmicrosencillo.c` and `src/adc/pot_temp.c`.
 
 ## Open question
 
